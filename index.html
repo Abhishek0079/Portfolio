@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek Yadav — MIS Executive</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0E0E12;
+    --ink-soft: #1C1C24;
+    --teal: #0D9488;
+    --teal-light: #14B8A6;
+    --teal-glow: rgba(13,148,136,0.12);
+    --amber: #F59E0B;
+    --cream: #FAFAF7;
+    --warm-grey: #F3F2EE;
+    --border: rgba(14,14,18,0.08);
+    --text: #2D2D35;
+    --muted: #6B6B78;
+    --white: #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--teal);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width .2s, height .2s, background .2s;
+    mix-blend-mode: multiply;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 500;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6%;
+    background: rgba(250,250,247,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(14,14,18,0.06); }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .logo em { color: var(--teal); font-style: normal; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color .2s;
+    position: relative; padding-bottom: 4px;
+    cursor: pointer;
+    z-index: 200;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: var(--teal);
+    border-radius: 2px;
+    transition: width .25s ease;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--teal); }
+  .nav-links a.active::after { width: 100%; }
+
+  .nav-hire {
+    background: var(--ink);
+    color: var(--cream) !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    transition: background .2s !important;
+  }
+  .nav-hire:hover { background: var(--teal) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 900px) { #hero { grid-template-columns: 1fr; } }
+
+  .hero-left {
+    background: var(--ink);
+    padding: 80px 6% 80px 6%;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,148,136,0.15);
+    border: 1px solid rgba(13,148,136,0.3);
+    border-radius: 4px;
+    padding: 6px 14px;
+    margin-bottom: 2rem;
+    width: fit-content;
+    animation: fadeUp .6s ease both;
+  }
+  .hero-tag-dot { width: 6px; height: 6px; background: var(--teal-light); border-radius: 50%; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .hero-tag span { font-size: 0.72rem; font-weight: 600; color: var(--teal-light); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  h1.hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 1rem;
+    animation: fadeUp .6s .1s ease both;
+  }
+  h1.hero-name .name-teal { color: var(--teal-light); }
+
+  .hero-role {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp .6s .4s ease both; }
+
+  .btn {
+    padding: 12px 24px; border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; border: none; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all .25s;
+  }
+  .btn-teal { background: var(--teal); color: white; }
+  .btn-teal:hover { background: var(--teal-light); transform: translateY(-2px); }
+  .btn-border { background: transparent; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2); }
+  .btn-border:hover { border-color: var(--teal); color: var(--teal-light); }
+  .btn-dark { background: var(--ink); color: white; }
+  .btn-dark:hover { background: var(--teal); transform: translateY(-2px); }
+
+  /* Animated numbers in hero */
+  .hero-nums {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    animation: fadeUp .6s .5s ease both;
+  }
+  .hero-num-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900;
+    color: white; line-height: 1;
+  }
+  .hero-num-val span { color: var(--teal-light); }
+  .hero-num-label { font-size: 0.7rem; color: rgba(255,255,255,.35); margin-top: 5px; text-transform: uppercase; letter-spacing: .08em; }
+
+  /* Hero right — profile + info cards */
+  .hero-right {
+    background: var(--warm-grey);
+    padding: 80px 6% 80px 8%;
+    display: flex; flex-direction: column; justify-content: center; gap: 24px;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .profile-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+
+  .profile-avatar {
+    width: 64px; height: 64px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--teal), var(--ink));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900; color: white;
+  }
+
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 800;
+    color: var(--ink); margin-bottom: 3px;
+  }
+  .profile-title { font-size: 0.78rem; color: var(--teal); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .06em; }
+  .profile-contact { display: flex; flex-direction: column; gap: 5px; }
+  .profile-contact-item { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+  /* Mini tool cards */
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tool-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align: center;
+    transition: border-color .2s, transform .2s;
+    cursor: default;
+  }
+  .tool-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+  .tool-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .tool-name { font-size: 0.72rem; font-weight: 600; color: var(--ink); }
+  .tool-sub { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+
+  /* Cert strip */
+  .cert-strip {
+    background: linear-gradient(135deg, var(--ink) 0%, #1C1C2E 100%);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .cert-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .cert-title { font-size: 0.8rem; font-weight: 600; color: white; margin-bottom: 4px; }
+  .cert-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cert-badge {
+    background: rgba(13,148,136,0.2); border: 1px solid rgba(13,148,136,0.3);
+    color: var(--teal-light); border-radius: 4px; padding: 3px 9px;
+    font-size: 0.65rem; font-weight: 600;
+  }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+  /* ── ABOUT ── */
+  #about { background: var(--white); padding: 100px 6%; }
+
+  .split-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    margin-top: 4rem;
+  }
+  @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .section-eyebrow {
+    font-size: 0.72rem; font-weight: 700; color: var(--teal);
+    text-transform: uppercase; letter-spacing: .15em;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-eyebrow::before { content:''; width:20px; height:2px; background:var(--teal); border-radius:2px; display:block; }
+
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 900; letter-spacing: -0.03em;
+    color: var(--ink); line-height: 1.1; margin-bottom: 1.25rem;
+  }
+
+  .about-text p { font-size: 1rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.1rem; font-weight: 300; }
+
+  .about-right {}
+  .about-summary-box {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative; overflow: hidden;
+  }
+  .about-summary-box::before {
+    content: '"';
+    position: absolute; top: -10px; left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem; color: rgba(13,148,136,0.15); line-height: 1;
+    pointer-events: none;
+  }
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: white; line-height: 1.5;
+    position: relative; z-index: 1;
+    margin-bottom: 24px;
+  }
+  .about-detail { font-size: 0.82rem; color: rgba(255,255,255,.45); line-height: 1.6; }
+  .about-highlight { color: var(--teal-light); font-weight: 600; }
+
+  .about-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .about-pill {
+    background: var(--teal-glow);
+    border: 1px solid rgba(13,148,136,.2);
+    color: var(--teal);
+    border-radius: 100px; padding: 6px 16px;
+    font-size: 0.78rem; font-weight: 600;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--cream); padding: 100px 6%; }
+
+  .exp-grid { margin-top: 4rem; display: flex; flex-direction: column; gap: 28px; }
+
+  .exp-card {
+    background: var(--white);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow .3s, transform .3s;
+  }
+  .exp-card:hover { box-shadow: 0 16px 48px rgba(14,14,18,.07); transform: translateY(-4px); }
+
+  .exp-card-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  .exp-company-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 800;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .exp-role-badge {
+    display: inline-block;
+    background: var(--teal-glow);
+    border: 1px solid rgba(13,148,136,.2);
+    color: var(--teal);
+    border-radius: 4px; padding: 4px 12px;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: .04em;
+  }
+
+  .exp-date-badge {
+    background: var(--ink);
+    color: rgba(255,255,255,.7);
+    border-radius: 6px; padding: 8px 16px;
+    font-size: 0.75rem; font-weight: 500;
+    white-space: nowrap;
+  }
+  .exp-date-badge .duration { display: block; font-size: 0.65rem; color: var(--teal-light); margin-top: 2px; font-weight: 600; }
+
+  .exp-card-body { padding: 24px 32px 28px; }
+  .exp-bullets { display: flex; flex-direction: column; gap: 10px; }
+  .exp-bullet {
+    display: flex; gap: 12px;
+    font-size: 0.88rem; color: var(--muted); line-height: 1.6; font-weight: 300;
+  }
+  .exp-bullet::before { content: '▸'; color: var(--teal); flex-shrink: 0; margin-top: 2px; font-size: 0.7rem; }
+
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .exp-tag {
+    background: var(--warm-grey);
+    color: var(--text);
+    border-radius: 4px; padding: 4px 12px;
+    font-size: 0.72rem; font-weight: 600;
+    border: 1px solid var(--border);
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--white); padding: 100px 6%; }
+
+  .skills-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem;
+  }
+  @media (max-width: 768px) { .skills-layout { grid-template-columns: 1fr; } }
+
+  .skill-panel {
+    background: var(--warm-grey);
+    border-radius: 18px; padding: 32px;
+    border: 1px solid var(--border);
+  }
+  .skill-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 800;
+    color: var(--ink); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .skill-panel-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--teal); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .skill-row { margin-bottom: 18px; }
+  .skill-row:last-child { margin-bottom: 0; }
+  .skill-row-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .skill-row-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+  .skill-row-pct { font-size: 0.8rem; color: var(--teal); font-weight: 700; }
+  .skill-track { height: 5px; background: rgba(14,14,18,.08); border-radius: 10px; overflow: hidden; }
+  .skill-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--teal), var(--teal-light)); width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+  /* Excel functions */
+  .excel-functions {
+    background: var(--ink); border-radius: 14px; padding: 24px;
+    grid-column: 1 / -1;
+  }
+  .excel-functions-title {
+    font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,.4);
+    text-transform: uppercase; letter-spacing: .12em; margin-bottom: 16px;
+  }
+  .function-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .fn-chip {
+    font-family: 'Outfit', monospace;
+    background: rgba(13,148,136,.15);
+    border: 1px solid rgba(13,148,136,.25);
+    color: var(--teal-light);
+    border-radius: 6px; padding: 6px 14px;
+    font-size: 0.8rem; font-weight: 600;
+    transition: background .2s;
+    cursor: default;
+  }
+  .fn-chip:hover { background: rgba(13,148,136,.3); }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--ink); padding: 100px 6%; }
+  #projects .section-eyebrow { color: var(--teal-light); }
+  #projects .section-eyebrow::before { background: var(--teal-light); }
+  #projects h2.section-title { color: var(--white); }
+  #projects .section-sub-p { font-size: .95rem; color: rgba(255,255,255,.4); line-height: 1.7; font-weight: 300; margin-top: .5rem; max-width: 560px; }
+
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 4rem;
+  }
+  @media (max-width: 1100px) { .projects-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 680px) { .projects-grid { grid-template-columns: 1fr; } }
+
+  /* featured card spans 2 cols */
+  .proj-card-featured { grid-column: span 2; }
+  @media (max-width: 680px) { .proj-card-featured { grid-column: span 1; } }
+
+  .proj-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px; overflow: hidden;
+    transition: border-color .3s, transform .3s, box-shadow .3s;
+    display: flex; flex-direction: column;
+  }
+  .proj-card:hover {
+    border-color: rgba(13,148,136,.4);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+
+  /* Visual preview area */
+  .proj-preview {
+    height: 180px; position: relative;
+    overflow: hidden; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .proj-card-featured .proj-preview { height: 220px; }
+
+  .proj-preview-bg {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(13,148,136,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(13,148,136,.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Mini dashboard inside preview */
+  .proj-mini-dash {
+    position: relative; z-index: 1;
+    width: 88%; background: rgba(14,14,18,.7);
+    border: 1px solid rgba(13,148,136,.2);
+    border-radius: 12px; padding: 14px;
+    backdrop-filter: blur(6px);
+  }
+  .proj-mini-dash-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .proj-mini-dash-title { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; }
+  .proj-mini-live { display: flex; align-items: center; gap: 4px; font-size: .6rem; color: #34D399; }
+  .proj-mini-live-dot { width: 5px; height: 5px; background: #34D399; border-radius: 50%; animation: blink 1.8s infinite; }
+
+  .proj-kpi-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .proj-kpi {
+    flex: 1; background: rgba(13,148,136,.12); border: 1px solid rgba(13,148,136,.18);
+    border-radius: 6px; padding: 7px; text-align: center;
+  }
+  .proj-kpi-val { font-family: 'Playfair Display', serif; font-size: .85rem; font-weight: 900; color: white; }
+  .proj-kpi-label { font-size: .55rem; color: rgba(255,255,255,.35); margin-top: 2px; }
+
+  .proj-bars { display: flex; align-items: flex-end; gap: 4px; height: 40px; }
+  .proj-bar { flex: 1; border-radius: 3px 3px 0 0; }
+
+  /* Donut mini */
+  .proj-donut-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+  /* Scatter dots */
+  .proj-scatter { position: relative; width: 100%; height: 54px; }
+  .proj-dot {
+    position: absolute; border-radius: 50%;
+    background: var(--teal-light); opacity: 0.7;
+  }
+
+  /* Card body */
+  .proj-body { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column; }
+  .proj-category {
+    font-size: .68rem; font-weight: 700; color: var(--teal-light);
+    text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .proj-category::before { content: ''; width: 14px; height: 1.5px; background: var(--teal); border-radius: 2px; }
+
+  .proj-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 800;
+    color: white; line-height: 1.25; margin-bottom: 10px;
+  }
+  .proj-card-featured .proj-title { font-size: 1.2rem; }
+
+  .proj-desc { font-size: .82rem; color: rgba(255,255,255,.45); line-height: 1.65; font-weight: 300; margin-bottom: 14px; flex: 1; }
+
+  .proj-insight {
+    background: rgba(13,148,136,.1); border-left: 2px solid var(--teal);
+    border-radius: 0 6px 6px 0; padding: 8px 12px;
+    font-size: .76rem; color: var(--teal-light); font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .proj-insight::before { content: '💡 '; }
+
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .proj-tag {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+    color: rgba(255,255,255,.5); border-radius: 4px;
+    padding: 3px 10px; font-size: .7rem; font-weight: 500;
+  }
+
+  .proj-link {
+    font-size: .8rem; color: var(--teal-light); text-decoration: none;
+    font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
+    margin-top: auto; transition: gap .2s;
+  }
+  .proj-link:hover { gap: 10px; }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { background: var(--cream); padding: 100px 6%; }
+
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 4rem; }
+
+  .cert-card {
+    background: var(--white);
+    border-radius: 16px; padding: 28px;
+    border: 1px solid var(--border);
+    transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .cert-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  }
+  .cert-card:hover { box-shadow: 0 12px 40px rgba(13,148,136,.1); transform: translateY(-4px); border-color: var(--teal); }
+
+  .cert-card-icon { font-size: 2rem; margin-bottom: 14px; }
+  .cert-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 800;
+    color: var(--ink); line-height: 1.3; margin-bottom: 8px;
+  }
+  .cert-card-by { font-size: 0.78rem; color: var(--teal); font-weight: 600; margin-bottom: 10px; }
+  .cert-card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--white); padding: 80px 6%; }
+
+  .edu-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 3rem; }
+  .edu-card {
+    flex: 1; min-width: 200px;
+    background: var(--warm-grey);
+    border-radius: 14px; padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .edu-level { font-size: 0.7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+  .edu-degree { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+  .edu-year { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--ink); padding: 100px 6%; }
+
+  .contact-inner {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start;
+  }
+  @media (max-width: 900px) { .contact-inner { grid-template-columns: 1fr; gap: 3rem; } }
+
+  #contact .section-eyebrow { color: var(--teal-light); }
+  #contact .section-eyebrow::before { background: var(--teal-light); }
+  #contact h2.section-title { color: var(--white); }
+  #contact .section-sub { color: rgba(255,255,255,.45); font-size: .95rem; line-height: 1.7; font-weight: 300; margin-bottom: 2rem; }
+
+  .contact-details { display: flex; flex-direction: column; gap: 14px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 12px; padding: 14px 18px;
+    text-decoration: none; color: rgba(255,255,255,.65);
+    font-size: 0.88rem; font-weight: 400;
+    transition: all .2s;
+  }
+  .contact-item:hover { background: rgba(13,148,136,.12); border-color: rgba(13,148,136,.3); color: var(--teal-light); }
+  .contact-item-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  /* Form */
+  .contact-form { }
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label { display: block; font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 7px; }
+  .form-input, .form-textarea {
+    width: 100%; padding: 13px 16px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem; color: white; outline: none;
+    transition: border-color .2s, background .2s;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,.25); }
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--teal); background: rgba(13,148,136,.06);
+  }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .form-btn {
+    width: 100%; padding: 14px;
+    background: var(--teal); color: white;
+    border: none; border-radius: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer; letter-spacing: .02em;
+    transition: background .2s, transform .2s;
+    margin-top: 6px;
+  }
+  .form-btn:hover { background: var(--teal-light); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080810; padding: 28px 6%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1rem; color: rgba(255,255,255,.5); }
+  .footer-logo em { color: var(--teal-light); font-style: normal; }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,.2); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s ease; }
+  .reveal.hidden { opacity: 0; transform: translateY(24px); }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="navbar">
+  <div class="logo">A<em>.</em>Yadav</div>
+  <ul class="nav-links">
+    <li><a onclick="scrollTo('about')" href="#about">About</a></li>
+    <li><a onclick="scrollTo('experience')" href="#experience">Experience</a></li>
+    <li><a onclick="scrollTo('skills')" href="#skills">Skills</a></li>
+    <li><a onclick="scrollTo('projects')" href="#projects">Projects</a></li>
+    <li><a onclick="scrollTo('certifications')" href="#certifications">Certs</a></li>
+    <li><a onclick="scrollTo('contact')" href="#contact" class="nav-hire">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <!-- LEFT: dark panel -->
+  <div class="hero-left">
+    <div class="hero-left-pattern"></div>
+    <div class="hero-tag"><div class="hero-tag-dot"></div><span>Open to Opportunities</span></div>
+    <h1 class="hero-name">Abhishek<br><span class="name-teal">Yadav</span></h1>
+    <p class="hero-role">MIS Executive · Data Analyst · Power BI</p>
+    <p class="hero-desc">Detail-oriented MIS professional with 3+ years turning messy data into clean, actionable dashboards that help businesses move faster and smarter.</p>
+    <div class="hero-btns">
+      <a href="#experience" class="btn btn-teal">View My Work</a>
+      <a href="mailto:abhiya449@gmail.com" class="btn btn-border">Email Me</a>
+    </div>
+    <div class="hero-nums">
+      <div>
+        <div class="hero-num-val">3<span>+</span></div>
+        <div class="hero-num-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="hero-num-val">3</div>
+        <div class="hero-num-label">Companies</div>
+      </div>
+      <div>
+        <div class="hero-num-val">4</div>
+        <div class="hero-num-label">Certifications</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: info cards -->
+  <div class="hero-right">
+    <!-- Profile card -->
+    <div class="profile-card">
+      <div class="profile-avatar">AY</div>
+      <div>
+        <div class="profile-name">Abhishek Yadav</div>
+        <div class="profile-title">MIS Executive</div>
+        <div class="profile-contact">
+          <div class="profile-contact-item">📧 abhiya449@gmail.com</div>
+          <div class="profile-contact-item">📱 +91 7977383411</div>
+          <div class="profile-contact-item">📍 Malad East, Mumbai</div>
+          <div class="profile-contact-item">🎂 22 April 1999</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools grid -->
+    <div class="tool-grid">
+      <div class="tool-card"><div class="tool-icon">📊</div><div class="tool-name">Power BI</div><div class="tool-sub">Dashboards</div></div>
+      <div class="tool-card"><div class="tool-icon">📗</div><div class="tool-name">Excel</div><div class="tool-sub">Advanced</div></div>
+      <div class="tool-card"><div class="tool-icon">🏢</div><div class="tool-name">SAP ERP</div><div class="tool-sub">Billing & PR</div></div>
+      <div class="tool-card"><div class="tool-icon">🔄</div><div class="tool-name">Power Query</div><div class="tool-sub">ETL</div></div>
+      <div class="tool-card"><div class="tool-icon">📈</div><div class="tool-name">PivotTables</div><div class="tool-sub">Reporting</div></div>
+      <div class="tool-card"><div class="tool-icon">🔍</div><div class="tool-name">Data Models</div><div class="tool-sub">DAX / Joins</div></div>
+    </div>
+
+    <!-- Certs strip -->
+    <div class="cert-strip">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-title">Certified by Udemy · Deloitte · Citi</div>
+        <div class="cert-list">
+          <span class="cert-badge">MS Excel</span>
+          <span class="cert-badge">Power BI</span>
+          <span class="cert-badge">Deloitte</span>
+          <span class="cert-badge">Citi MQA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-eyebrow">Who I Am</div>
+    <h2 class="section-title">Built on Data,<br>Driven by Insight</h2>
+  </div>
+
+  <div class="split-layout">
+    <div class="about-text reveal">
+      <p>I'm Abhishek Yadav, an MIS Executive based in Mumbai with over 3 years of experience working across travel, beverages, and airline industries. I specialize in making data useful — not just clean.</p>
+      <p>My work spans building Power BI dashboards for refund analytics, managing SAP-based billing workflows, automating Excel reports, and transforming lakhs of raw rows into clear, decision-ready visuals.</p>
+      <p>I bring reliability, sharp attention to detail, and a continuous improvement mindset to every dataset I touch — whether it's a travel agent database or a multi-source airline refund model.</p>
+      <div class="about-pills">
+        <span class="about-pill">Data Cleaning</span>
+        <span class="about-pill">Dashboard Design</span>
+        <span class="about-pill">SAP ERP</span>
+        <span class="about-pill">Reporting Automation</span>
+        <span class="about-pill">KPI Tracking</span>
+        <span class="about-pill">Lead Data Management</span>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-2">
+      <div class="about-summary-box">
+        <div class="about-quote">"Detail-oriented MIS Executive with a proven track record of transforming raw operational data into crisp, business-ready intelligence."</div>
+        <div class="about-detail">
+          Skilled in <span class="about-highlight">Microsoft Excel</span>, <span class="about-highlight">Power BI</span>, and <span class="about-highlight">SAP ERP</span>, with hands-on experience across outbound operations, travel industry analytics, and freelance airline refund dashboards.<br><br>
+          Currently pursuing <span class="about-highlight">BCA (Bachelor's of Computer Applications)</span> online to deepen technical foundations.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCE ══ -->
+<section id="experience">
+  <div class="reveal">
+    <div class="section-eyebrow">Work History</div>
+    <h2 class="section-title">Professional Experience</h2>
+  </div>
+
+  <div class="exp-grid">
+
+    <!-- Shree Plan Your Journey -->
+    <div class="exp-card reveal">
+      <div class="exp-card-header">
+        <div>
+          <div class="exp-company-name">Shree Plan Your Journey</div>
+          <span class="exp-role-badge">Freelancer · Power BI Consultant</span>
+        </div>
+        <div class="exp-date-badge">Oct 2025 – Feb 2026<span class="duration">~4 months</span></div>
+      </div>
+      <div class="exp-card-body">
+        <div class="exp-bullets">
+          <div class="exp-bullet">Designed and developed Power BI dashboards for airline sales and refund analysis, giving management a clear view of refund status and airline-wise performance.</div>
+          <div class="exp-bullet">Cleaned, transformed, and modeled large-scale airline datasets (lakhs of rows) using Power Query for accurate, high-performance reporting.</div>
+          <div class="exp-bullet">Integrated multiple data sources — airlines, refunds, transactions, and dates — into a unified data model for seamless cross-filtering.</div>
+          <div class="exp-bullet">Created interactive dashboards with KPIs for refund status, pending refunds, airline-wise trends, and operational performance.</div>
+          <div class="exp-bullet">Optimized data models for high-volume data, ensuring smooth dashboard performance and faster refresh times.</div>
+          <div class="exp-bullet">Implemented data validation and consistency checks to improve report accuracy and reliability.</div>
+          <div class="exp-bullet">Enabled management to gain actionable insights for decision-making and refund tracking through visual analytics.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Power BI</span>
+          <span class="exp-tag">Power Query</span>
+          <span class="exp-tag">DAX</span>
+          <span class="exp-tag">Data Modeling</span>
+          <span class="exp-tag">Airline Analytics</span>
+          <span class="exp-tag">Refund KPIs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monika Alcobev -->
+    <div class="exp-card reveal reveal-delay-1">
+      <div class="exp-card-header">
+        <div>
+          <div class="exp-company-name">Monika Alcobev Limited</div>
+          <span class="exp-role-badge">Outbound Operations Executive</span>
+        </div>
+        <div class="exp-date-badge">Sep 2024 – Jun 2025<span class="duration">~9 months</span></div>
+      </div>
+      <div class="exp-card-body">
+        <div class="exp-bullets">
+          <div class="exp-bullet">Maintained and regularly updated stock and inventory sheets, ensuring accurate inventory tracking and smooth outbound operations.</div>
+          <div class="exp-bullet">Prepared monthly and yearly sales reports, enabling management to make data-driven business decisions.</div>
+          <div class="exp-bullet">Created and managed sales invoices in SAP, ensuring timely, accurate billing and compliance with internal controls.</div>
+          <div class="exp-bullet">Entered and processed purchase requests in SAP, maintaining data accuracy and supporting efficient procurement operations.</div>
+          <div class="exp-bullet">Maintained clean, structured documentation for audit readiness and management reporting.</div>
+          <div class="exp-bullet">Designed and developed Power BI dashboards to visualize operational and sales performance for leadership review.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">SAP ERP</span>
+          <span class="exp-tag">Power BI</span>
+          <span class="exp-tag">Excel</span>
+          <span class="exp-tag">Inventory Tracking</span>
+          <span class="exp-tag">Sales Reporting</span>
+          <span class="exp-tag">Billing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dreamtrawell -->
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-card-header">
+        <div>
+          <div class="exp-company-name">Dreamtrawell Destination DMC</div>
+          <span class="exp-role-badge">MIS Executive</span>
+        </div>
+        <div class="exp-date-badge">Apr 2022 – Jul 2024<span class="duration">~2 yrs 3 mo</span></div>
+      </div>
+      <div class="exp-card-body">
+        <div class="exp-bullets">
+          <div class="exp-bullet">Collected and managed travel agent data via Chrome Extensions for targeted lead generation, building a categorized database of contacts.</div>
+          <div class="exp-bullet">Created Excel reports and dashboards for operational analysis of travel package sales performance.</div>
+          <div class="exp-bullet">Enhanced reporting processes through Excel automation, significantly reducing manual effort and error rate.</div>
+          <div class="exp-bullet">Supported marketing by delivering clean, categorized contact data for campaigns.</div>
+          <div class="exp-bullet">Produced monthly sales reports of travel packages sold across agent networks.</div>
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Excel Dashboards</span>
+          <span class="exp-tag">Data Collection</span>
+          <span class="exp-tag">Lead Management</span>
+          <span class="exp-tag">Sales Reporting</span>
+          <span class="exp-tag">Automation</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-eyebrow">Technical Toolkit</div>
+    <h2 class="section-title">Skills &amp; Expertise</h2>
+  </div>
+
+  <div class="skills-layout reveal">
+    <div class="skill-panel">
+      <div class="skill-panel-title"><div class="skill-panel-icon">📊</div>Reporting & BI Tools</div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">Power BI</span><span class="skill-row-pct">90%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="90"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">Microsoft Excel (Advanced)</span><span class="skill-row-pct">95%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="95"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">Power Query (ETL)</span><span class="skill-row-pct">88%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="88"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">DAX Formulas</span><span class="skill-row-pct">80%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="80"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-panel">
+      <div class="skill-panel-title"><div class="skill-panel-icon">🏢</div>ERP & Operations</div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">SAP ERP (Billing)</span><span class="skill-row-pct">85%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="85"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">SAP (Purchase Requests)</span><span class="skill-row-pct">82%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="82"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">Inventory & Stock Management</span><span class="skill-row-pct">88%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="88"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-row-name">Data Modeling</span><span class="skill-row-pct">84%</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="84"></div></div>
+      </div>
+    </div>
+
+    <!-- Excel functions full width -->
+    <div class="excel-functions">
+      <div class="excel-functions-title">Excel Functions I Work With Daily</div>
+      <div class="function-chips">
+        <span class="fn-chip">VLOOKUP</span>
+        <span class="fn-chip">XLOOKUP</span>
+        <span class="fn-chip">PivotTables</span>
+        <span class="fn-chip">PivotCharts</span>
+        <span class="fn-chip">Conditional Formatting</span>
+        <span class="fn-chip">FILTER</span>
+        <span class="fn-chip">IF / IFS</span>
+        <span class="fn-chip">SUMIFS</span>
+        <span class="fn-chip">COUNTIFS</span>
+        <span class="fn-chip">INDEX / MATCH</span>
+        <span class="fn-chip">Power Query</span>
+        <span class="fn-chip">Data Validation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-eyebrow">Featured Work</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub-p">Real dashboards and data solutions built across industries — from airline refunds to inventory operations and travel analytics.</p>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- PROJECT 1 — FEATURED: Airline Refund Dashboard -->
+    <div class="proj-card proj-card-featured reveal">
+      <div class="proj-preview" style="background: linear-gradient(135deg, #071820 0%, #0a2230 100%);">
+        <div class="proj-preview-bg"></div>
+        <div class="proj-mini-dash" style="width:86%">
+          <div class="proj-mini-dash-header">
+            <span class="proj-mini-dash-title">Airline Refund Analytics · Power BI</span>
+            <span class="proj-mini-live"><span class="proj-mini-live-dot"></span>Dashboard</span>
+          </div>
+          <div class="proj-kpi-row">
+            <div class="proj-kpi"><div class="proj-kpi-val">₹2.4M</div><div class="proj-kpi-label">Total Refunds</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-val">94%</div><div class="proj-kpi-label">Resolved</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-val">6.8d</div><div class="proj-kpi-label">Avg TAT</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-val">48</div><div class="proj-kpi-label">Airlines</div></div>
+          </div>
+          <div class="proj-bars">
+            <div class="proj-bar" style="height:50%;background:rgba(13,148,136,.5)"></div>
+            <div class="proj-bar" style="height:72%;background:rgba(13,148,136,.65)"></div>
+            <div class="proj-bar" style="height:45%;background:rgba(13,148,136,.5)"></div>
+            <div class="proj-bar" style="height:88%;background:#0D9488"></div>
+            <div class="proj-bar" style="height:60%;background:rgba(13,148,136,.6)"></div>
+            <div class="proj-bar" style="height:95%;background:#14B8A6"></div>
+            <div class="proj-bar" style="height:55%;background:rgba(13,148,136,.55)"></div>
+            <div class="proj-bar" style="height:78%;background:rgba(13,148,136,.7)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-category">Power BI · Power Query · DAX</div>
+        <div class="proj-title">Airline Refund & Sales Analytics Dashboard</div>
+        <div class="proj-desc">Built for Shree Plan Your Journey, this multi-page Power BI dashboard analyzes lakhs of rows of airline refund data across 48+ carriers. Integrates airlines, transactions, refunds, and date tables into a unified star-schema model with full cross-filter capability.</div>
+        <div class="proj-insight">Enabled management to track pending vs resolved refunds, spot airline-wise bottlenecks, and make real-time operational decisions</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Power BI</span>
+          <span class="proj-tag">Power Query</span>
+          <span class="proj-tag">DAX</span>
+          <span class="proj-tag">Star Schema</span>
+          <span class="proj-tag">Data Modeling</span>
+          <span class="proj-tag">KPI Cards</span>
+          <span class="proj-tag">Lakhs of Rows</span>
+        </div>
+        <a href="#" class="proj-link">View Case Study →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 2: Alcobev Sales & Inventory Dashboard -->
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-preview" style="background: linear-gradient(135deg, #0f1a0f 0%, #152015 100%);">
+        <div class="proj-preview-bg" style="background-image: linear-gradient(rgba(52,211,153,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(52,211,153,.07) 1px, transparent 1px); background-size: 28px 28px;"></div>
+        <div class="proj-mini-dash">
+          <div class="proj-mini-dash-header">
+            <span class="proj-mini-dash-title">Sales & Inventory · Excel + Power BI</span>
+            <span class="proj-mini-live" style="color:#34D399"><span class="proj-mini-live-dot" style="background:#34D399"></span>Live</span>
+          </div>
+          <div class="proj-kpi-row">
+            <div class="proj-kpi" style="background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2)"><div class="proj-kpi-val" style="font-size:.75rem">₹18L</div><div class="proj-kpi-label">Monthly Sales</div></div>
+            <div class="proj-kpi" style="background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2)"><div class="proj-kpi-val" style="font-size:.75rem">99.2%</div><div class="proj-kpi-label">Stock Acc.</div></div>
+          </div>
+          <div class="proj-bars">
+            <div class="proj-bar" style="height:65%;background:rgba(52,211,153,.5)"></div>
+            <div class="proj-bar" style="height:80%;background:rgba(52,211,153,.65)"></div>
+            <div class="proj-bar" style="height:50%;background:rgba(52,211,153,.45)"></div>
+            <div class="proj-bar" style="height:90%;background:#34D399"></div>
+            <div class="proj-bar" style="height:70%;background:rgba(52,211,153,.6)"></div>
+            <div class="proj-bar" style="height:40%;background:rgba(52,211,153,.4)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-category" style="color:#34D399">Power BI · SAP · Excel</div>
+        <div class="proj-title">Alcobev Sales & Inventory Operations Dashboard</div>
+        <div class="proj-desc">Designed at Monika Alcobev Limited to track outbound inventory, monthly/yearly sales performance, and SAP billing data. Reduced manual reporting effort through automated Excel sheets linked to Power BI visuals.</div>
+        <div class="proj-insight">Streamlined audit documentation and cut monthly report prep time by ~40%</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Power BI</span>
+          <span class="proj-tag">SAP ERP</span>
+          <span class="proj-tag">Excel</span>
+          <span class="proj-tag">Inventory</span>
+          <span class="proj-tag">Sales Reports</span>
+        </div>
+        <a href="#" class="proj-link">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 3: Travel Agent Lead Database -->
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-preview" style="background: linear-gradient(135deg, #150f20 0%, #1e1030 100%);">
+        <div class="proj-preview-bg" style="background-image: linear-gradient(rgba(245,158,11,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,.07) 1px, transparent 1px); background-size: 28px 28px;"></div>
+        <div class="proj-mini-dash">
+          <div class="proj-mini-dash-header">
+            <span class="proj-mini-dash-title">Travel Agents · Excel Database</span>
+            <span class="proj-mini-live" style="color:#F59E0B"><span class="proj-mini-live-dot" style="background:#F59E0B"></span>Excel</span>
+          </div>
+          <div class="proj-kpi-row">
+            <div class="proj-kpi" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2)"><div class="proj-kpi-val" style="font-size:.75rem">5K+</div><div class="proj-kpi-label">Contacts</div></div>
+            <div class="proj-kpi" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2)"><div class="proj-kpi-val" style="font-size:.75rem">12</div><div class="proj-kpi-label">Regions</div></div>
+          </div>
+          <div class="proj-scatter">
+            <div class="proj-dot" style="width:8px;height:8px;left:10%;top:20%;background:#F59E0B;opacity:.8"></div>
+            <div class="proj-dot" style="width:6px;height:6px;left:25%;top:55%;background:#F59E0B;opacity:.5"></div>
+            <div class="proj-dot" style="width:10px;height:10px;left:40%;top:30%;background:#F59E0B;opacity:.7"></div>
+            <div class="proj-dot" style="width:7px;height:7px;left:55%;top:65%;background:#F59E0B;opacity:.6"></div>
+            <div class="proj-dot" style="width:9px;height:9px;left:70%;top:20%;background:#F59E0B;opacity:.9"></div>
+            <div class="proj-dot" style="width:5px;height:5px;left:85%;top:50%;background:#F59E0B;opacity:.4"></div>
+            <div class="proj-dot" style="width:8px;height:8px;left:30%;top:10%;background:rgba(245,158,11,.5)"></div>
+            <div class="proj-dot" style="width:6px;height:6px;left:60%;top:45%;background:rgba(245,158,11,.6)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-category" style="color:#F59E0B">Excel · Data Collection · Automation</div>
+        <div class="proj-title">Travel Agent Lead Database & Reporting System</div>
+        <div class="proj-desc">Built and managed a structured Excel database of 5,000+ travel agent contacts at Dreamtrawell, collected via Chrome Extensions. Created automated monthly sales reports for travel packages with category-wise filtering for marketing campaigns.</div>
+        <div class="proj-insight">Reduced manual data entry by 60% through Excel automation macros and structured templates</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Excel</span>
+          <span class="proj-tag">Automation</span>
+          <span class="proj-tag">Lead Management</span>
+          <span class="proj-tag">Reporting</span>
+          <span class="proj-tag">Data Cleaning</span>
+        </div>
+        <a href="#" class="proj-link">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 4: SAP Billing & Purchase Request Tracker -->
+    <div class="proj-card reveal reveal-delay-2">
+      <div class="proj-preview" style="background: linear-gradient(135deg, #0e1520 0%, #111c2a 100%);">
+        <div class="proj-preview-bg" style="background-image: linear-gradient(rgba(96,165,250,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,.07) 1px, transparent 1px); background-size: 28px 28px;"></div>
+        <div class="proj-mini-dash">
+          <div class="proj-mini-dash-header">
+            <span class="proj-mini-dash-title">SAP Billing Tracker · Excel</span>
+            <span class="proj-mini-live" style="color:#60A5FA"><span class="proj-mini-live-dot" style="background:#60A5FA"></span>SAP</span>
+          </div>
+          <div class="proj-kpi-row">
+            <div class="proj-kpi" style="background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.2)"><div class="proj-kpi-val" style="font-size:.75rem">100%</div><div class="proj-kpi-label">Billing Acc.</div></div>
+            <div class="proj-kpi" style="background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.2)"><div class="proj-kpi-val" style="font-size:.75rem">0</div><div class="proj-kpi-label">Audit Gaps</div></div>
+          </div>
+          <div class="proj-bars">
+            <div class="proj-bar" style="height:80%;background:rgba(96,165,250,.5)"></div>
+            <div class="proj-bar" style="height:90%;background:#60A5FA"></div>
+            <div class="proj-bar" style="height:75%;background:rgba(96,165,250,.6)"></div>
+            <div class="proj-bar" style="height:85%;background:rgba(96,165,250,.7)"></div>
+            <div class="proj-bar" style="height:70%;background:rgba(96,165,250,.5)"></div>
+            <div class="proj-bar" style="height:95%;background:#60A5FA"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-category" style="color:#60A5FA">SAP ERP · Excel · Compliance</div>
+        <div class="proj-title">SAP Billing & Purchase Request Compliance Tracker</div>
+        <div class="proj-desc">Developed a structured tracking system at Monika Alcobev using SAP and Excel to manage sales invoices and purchase requests, ensuring zero billing errors and full audit-readiness with clean documentation standards.</div>
+        <div class="proj-insight">Maintained 100% billing accuracy across 9 months with zero audit discrepancies</div>
+        <div class="proj-tags">
+          <span class="proj-tag">SAP ERP</span>
+          <span class="proj-tag">Excel</span>
+          <span class="proj-tag">Billing</span>
+          <span class="proj-tag">Procurement</span>
+          <span class="proj-tag">Audit Docs</span>
+        </div>
+        <a href="#" class="proj-link">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 5: Deloitte Simulation -->
+    <div class="proj-card reveal reveal-delay-2">
+      <div class="proj-preview" style="background: linear-gradient(135deg, #0a1a16 0%, #0d2018 100%);">
+        <div class="proj-preview-bg" style="background-image: linear-gradient(rgba(16,185,129,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,.07) 1px, transparent 1px); background-size: 28px 28px;"></div>
+        <div class="proj-mini-dash">
+          <div class="proj-mini-dash-header">
+            <span class="proj-mini-dash-title">Deloitte Simulation · Analytics</span>
+            <span class="proj-mini-live" style="color:#10B981"><span class="proj-mini-live-dot" style="background:#10B981"></span>Certified</span>
+          </div>
+          <div class="proj-kpi-row">
+            <div class="proj-kpi" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2)"><div class="proj-kpi-val" style="font-size:.75rem">A+</div><div class="proj-kpi-label">Score</div></div>
+            <div class="proj-kpi" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2)"><div class="proj-kpi-val" style="font-size:.75rem">5</div><div class="proj-kpi-label">Modules</div></div>
+          </div>
+          <div class="proj-donut-wrap" style="height:40px;">
+            <svg width="40" height="40" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="14" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="7"/>
+              <circle cx="20" cy="20" r="14" fill="none" stroke="#10B981" stroke-width="7" stroke-dasharray="55 33" stroke-dashoffset="12" stroke-linecap="butt"/>
+              <circle cx="20" cy="20" r="14" fill="none" stroke="#34D399" stroke-width="7" stroke-dasharray="25 63" stroke-dashoffset="-43" stroke-linecap="butt"/>
+            </svg>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.4);line-height:1.5">Data Interpretation<br>Business Reporting<br>Visualization</div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-category" style="color:#10B981">Deloitte · Job Simulation · Analytics</div>
+        <div class="proj-title">Deloitte Data Analytics Job Simulation</div>
+        <div class="proj-desc">Completed Deloitte's official data analytics job simulation, performing real-world analyst tasks including data interpretation, business reporting, and delivering insights in a consulting context. Certified upon completion.</div>
+        <div class="proj-insight">Scored top marks across all 5 simulation modules — equivalent to a junior Deloitte analyst task set</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Data Analytics</span>
+          <span class="proj-tag">Business Reporting</span>
+          <span class="proj-tag">Consulting</span>
+          <span class="proj-tag">Deloitte</span>
+        </div>
+        <a href="#" class="proj-link">View Certificate →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CERTIFICATIONS ══ -->
+<section id="certifications">
+  <div class="reveal">
+    <div class="section-eyebrow">Credentials</div>
+    <h2 class="section-title">Certifications</h2>
+  </div>
+
+  <div class="cert-grid">
+    <div class="cert-card reveal">
+      <div class="cert-card-icon">📊</div>
+      <div class="cert-card-name">Mastering Data Visualisation and Analytics with MS Excel</div>
+      <div class="cert-card-by">Udemy</div>
+      <div class="cert-card-desc">In-depth training in Excel dashboards, advanced charts, pivot analytics, and business reporting techniques.</div>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-card-icon">⚡</div>
+      <div class="cert-card-name">Microsoft Power BI: The Complete Guide</div>
+      <div class="cert-card-by">Udemy</div>
+      <div class="cert-card-desc">Comprehensive Power BI training covering DAX, data modeling, Power Query, and interactive dashboard design.</div>
+    </div>
+    <div class="cert-card reveal reveal-delay-2">
+      <div class="cert-card-icon">🏦</div>
+      <div class="cert-card-name">Data Analytics Job Simulation</div>
+      <div class="cert-card-by">Deloitte</div>
+      <div class="cert-card-desc">Practical simulation of real-world data analytics tasks performed by Deloitte analysts, including data interpretation and business reporting.</div>
+    </div>
+    <div class="cert-card reveal reveal-delay-3">
+      <div class="cert-card-icon">📉</div>
+      <div class="cert-card-name">Markets Quantitative Analysis (MQA) Job Simulation</div>
+      <div class="cert-card-by">Citi</div>
+      <div class="cert-card-desc">Hands-on simulation of quantitative analysis and market data tasks aligned with Citi's institutional finance standards.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EDUCATION ══ -->
+<section id="education">
+  <div class="reveal">
+    <div class="section-eyebrow">Academic Background</div>
+    <h2 class="section-title">Education</h2>
+  </div>
+  <div class="edu-row reveal">
+    <div class="edu-card">
+      <div class="edu-level">Undergraduate</div>
+      <div class="edu-degree">BCA — Bachelor's of Computer Applications</div>
+      <div class="edu-year">Currently Pursuing · Online Mode</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-level">Higher Secondary</div>
+      <div class="edu-degree">12th — HSC</div>
+      <div class="edu-year">Completed February 2018</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-level">Secondary School</div>
+      <div class="edu-degree">10th — SSC</div>
+      <div class="edu-year">Completed April 2016</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-eyebrow reveal">Get In Touch</div>
+      <h2 class="section-title reveal">Let's Build<br>Something Together</h2>
+      <p class="section-sub reveal">Looking for a reliable MIS Executive or Power BI consultant? I'm open to full-time roles and freelance projects in data analytics, dashboard design, and reporting.</p>
+
+      <div class="contact-details reveal">
+        <a href="mailto:abhiya449@gmail.com" class="contact-item">
+          <span class="contact-item-icon">✉️</span> abhiya449@gmail.com
+        </a>
+        <a href="#" class="contact-item" download>
+          <span class="contact-item-icon">📄</span> Download Resume (PDF)
+        </a>
+      </div>
+    </div>
+
+
+    <form class="contact-form reveal" id="contact-form">
+      <!-- Web3Forms hidden fields -->
+      <input type="hidden" name="access_key" value="bd38d063-60ef-4933-ac94-d55337e35608">
+      <input type="hidden" name="subject" value="New Portfolio Inquiry — Abhishek Yadav">
+      <input type="hidden" name="from_name" value="Portfolio Contact Form — abhishek0079.github.io">
+      <input type="hidden" name="redirect" value="false">
+      <input type="checkbox" name="botcheck" style="display:none">
+
+      <div class="form-row2">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" name="first_name" class="form-input" placeholder="Rahul" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="last_name" class="form-input" placeholder="Sharma">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" name="email" class="form-input" placeholder="rahul@company.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type of Work</label>
+        <input type="text" name="type_of_work" class="form-input" placeholder="Power BI Dashboard / Full-time Role / Freelance">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea name="message" class="form-textarea" placeholder="Tell me about your project or role..." required></textarea>
+      </div>
+      <button type="submit" class="form-btn" id="submit-btn">Send Message →</button>
+
+      <!-- Success / Error messages -->
+      <div id="form-success" style="display:none;margin-top:14px;background:rgba(13,148,136,.15);border:1px solid rgba(13,148,136,.3);border-radius:10px;padding:14px 18px;color:#14B8A6;font-size:.9rem;font-weight:500;text-align:center;">
+        ✅ Message sent! Abhishek will get back to you soon.
+      </div>
+      <div id="form-error" style="display:none;margin-top:14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:14px 18px;color:#F87171;font-size:.9rem;font-weight:500;text-align:center;">
+        ❌ Something went wrong. Please email directly at abhiya449@gmail.com
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Abhishek <em>Yadav</em></div>
+  <div class="footer-copy">© 2026 Abhishek Yadav · MIS Executive · Mumbai</div>
+  <div style="font-size:.75rem;color:rgba(255,255,255,.2)">abhiya449@gmail.com</div>
+</footer>
+
+<script>
+  // Smooth scroll helper
+  function scrollTo(id) {
+    event.preventDefault();
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    updateActiveNav();
+  });
+
+  // Active nav link tracking
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a:not(.nav-hire)');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 100;
+      if (window.scrollY >= top) current = sec.getAttribute('id');
+    });
+    navAnchors.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  }
+  updateActiveNav();
+
+  // Skill bars
+  const fills = document.querySelectorAll('.skill-fill');
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; barObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.3 });
+  fills.forEach(f => barObs.observe(f));
+
+  // Scroll reveal
+  const revEls = document.querySelectorAll('.reveal');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.remove('hidden');
+        e.target.classList.add('visible');
+        revObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  // Mark below-fold elements as hidden on load, leave above-fold visible
+  revEls.forEach(r => {
+    const rect = r.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      r.classList.add('hidden');
+      revObs.observe(r);
+    }
+  });
+
+  // Web3Forms — real email delivery to abhiya449@gmail.com
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const successEl = document.getElementById('form-success');
+    const errorEl = document.getElementById('form-error');
+
+    // Reset messages
+    successEl.style.display = 'none';
+    errorEl.style.display = 'none';
+
+    // Loading state
+    btn.textContent = 'Sending...';
+    btn.style.opacity = '0.7';
+    btn.disabled = true;
+
+    try {
+      const formData = new FormData(this);
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        successEl.style.display = 'block';
+        btn.textContent = '✓ Sent!';
+        btn.style.background = '#059669';
+        btn.style.opacity = '1';
+        this.reset();
+        setTimeout(() => {
+          btn.textContent = 'Send Message →';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        throw
